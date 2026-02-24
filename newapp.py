@@ -235,6 +235,7 @@ elif app_mode == "AI Health Bot":
             st.error("❌ Disease not found. Please check spelling.")
 
 # --- CATEGORIES PAGE ---
+# --- CATEGORIES PAGE ---
 elif app_mode == "Categories":
     st.title("📂 Disease Categories")
     st.markdown("""
@@ -245,11 +246,16 @@ elif app_mode == "Categories":
     - 🧫 **Viral** (VI): *Chickenpox*, *Shingles*
     - ☀️ **Pre-cancerous**: *Actinic Keratosis*, *Bowen Disease*
     """)
- st.markdown("---")
- st.divider()
- # New Interactive Section
+    
+    st.markdown("---")
+    st.divider()
+    
+    # New Interactive Section
     st.subheader("🏥 Treatment Information and Timeline")
-    user_query = st.text_input("Enter the disease name to see a general recovery timeline:", placeholder="e.g. Shingles, Athlete's Foot")
+    user_query = st.text_input(
+        "Enter the disease name to see a general recovery timeline:", 
+        placeholder="e.g. Shingles, Athlete's Foot"
+    )
 
     if user_query:
         # Match user input to dictionary keys
@@ -271,10 +277,11 @@ elif app_mode == "Categories":
             for step in data['timetable']:
                 st.markdown(f"> {step}")
             
-            st.success("💡 **Tip:** Always complete the full course of treatment as recommended by a healthcare provider, even if symptoms improve early!")
+            st.success(
+                "💡 **Tip:** Always complete the full course of treatment as recommended by a healthcare provider, even if symptoms improve early!"
+            )
         else:
             st.error("Disease not found. Please try names like 'Cellulitis', 'Ringworm', or 'Shingles'.")
-
 # --- DEVELOPERS PAGE ---
 elif app_mode == "Developers Group":
     st.title("👩‍💻 Developers Group")
@@ -309,4 +316,5 @@ elif app_mode == "About Project":
     This system uses **Deep Learning (CNN)** to classify skin diseases from images.  
     **Framework:** TensorFlow + Streamlit  
     **Goal:** Build accessible healthcare AI for all 🌍 
+
     """)
