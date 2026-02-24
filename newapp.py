@@ -1,8 +1,20 @@
-import streamlit as st
-import numpy as np
-import tensorflow as tf
 import os
-from PIL import Image
+import gdown
+import tensorflow as tf
+import streamlit as st
+
+# --- Download model if it doesn't exist locally ---
+model_path = "skin_disease_model (1).keras"
+if not os.path.exists(model_path):
+    url = "https://drive.google.com/uc?id=167eTthYXh3ogLTf3s5S6IHhJMF-ys6a0"
+    gdown.download(url, model_path, quiet=False)
+
+# --- Load model with caching ---
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model(model_path)
+
+model = load_model()
 
 # --- LOAD MODEL ---
 @st.cache_resource
@@ -309,3 +321,4 @@ elif app_mode == "About Project":
     **Framework:** TensorFlow + Streamlit  
     **Goal:** Build accessible healthcare AI for all 🌍
     """)
+
