@@ -4,7 +4,7 @@ import tensorflow as tf
 import streamlit as st
 
 # --- Download model if it doesn't exist locally ---
-model_path = "skin_disease_model (1).keras"
+model_path = "skin_disease_model.keras"
 if not os.path.exists(model_path):
     url = "https://drive.google.com/uc?id=167eTthYXh3ogLTf3s5S6IHhJMF-ys6a0"
     gdown.download(url, model_path, quiet=False)
@@ -321,4 +321,5 @@ elif app_mode == "About Project":
     **Framework:** TensorFlow + Streamlit  
     **Goal:** Build accessible healthcare AI for all 🌍
     """)
+
 
