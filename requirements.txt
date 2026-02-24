@@ -1,4 +1,15 @@
-streamlit==1.29.0
+# Core ML library
+tensorflow==2.20.0
+
+# Streamlit for web app
+streamlit
+
+# Common data science libraries
 numpy
-pillow
-opencv-python-headless
+pandas
+scikit-learn
+
+# Optional but often useful for image ML projects
+matplotlib
+seaborn
+Pillow
