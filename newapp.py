@@ -4,6 +4,7 @@ import tensorflow as tf
 import os
 from PIL import Image
 
+# --- LOAD MODEL ---
 @st.cache_resource
 def load_model():
     return tf.keras.models.load_model("skin_disease_model.keras")
@@ -142,7 +143,6 @@ def disease_info_detailed(disease_name):
     }
     return details.get(disease_name, None)
 
-
 # --- SIDEBAR NAVIGATION ---
 st.sidebar.title("AI MODEL FOR SKIN DISEASE TESTING")
 app_mode = st.sidebar.radio(
@@ -153,8 +153,7 @@ app_mode = st.sidebar.radio(
 # --- HOME PAGE ---
 if app_mode == "Home":
     st.title("🏠 Welcome to the Skin Disease Testing System")
-    # Note: Ensure sample_image.jpg exists in your directory
-    st.image("sample_image.jpg", use_container_width=True) 
+    st.image("sample_image.jpg", use_container_width=True)
     st.markdown("""
     ### 👋 Introduction
     Welcome to the **AI-powered Skin Disease Recognition System**.  
@@ -185,7 +184,6 @@ elif app_mode == "Disease Recognition":
                 st.success(f"🩸 The model predicts: **{predicted_disease}**")
 
                 st.subheader("💬 AI Health Bot Summary:")
-                # This uses the original paragraph format
                 st.info(disease_info_summary(predicted_disease))
 
 # --- AI HEALTH BOT PAGE ---
@@ -196,7 +194,7 @@ elif app_mode == "AI Health Bot":
     Example: *ringworm*, *cellulitis*, *shingles*, etc.
     """)
     query = st.text_input("Enter Disease Name:")
-    
+
     if query:
         class_names = [
             'BA- cellulitis', 'BA-impetigo', 'FU-athlete-foot',
@@ -205,26 +203,25 @@ elif app_mode == "AI Health Bot":
             'Actinic Keratosis', 'Bowen Disease'
         ]
         found = [key for key in class_names if query.lower() in key.lower()]
-        
+
         if found:
             disease_name = found[0]
             data = disease_info_detailed(disease_name)
-            
+
             if data:
                 st.markdown(f"## Medical Analysis: {disease_name}")
-                # Implementing the requested 3-column format
                 col1, col2, col3 = st.columns(3)
-                
+
                 with col1:
                     st.subheader("🌡️ Symptoms")
                     for s in data['symptoms']:
                         st.write(f"• {s}")
-                
+
                 with col2:
                     st.subheader("💊 Diagnosis & Meds")
                     for m in data['medicine']:
                         st.write(f"• {m}")
-                        
+
                 with col3:
                     st.subheader("🛡️ Precautions")
                     for p in data['precautions']:
@@ -234,7 +231,6 @@ elif app_mode == "AI Health Bot":
         else:
             st.error("❌ Disease not found. Please check spelling.")
 
-# --- CATEGORIES PAGE ---
 # --- CATEGORIES PAGE ---
 elif app_mode == "Categories":
     st.title("📂 Disease Categories")
@@ -246,11 +242,10 @@ elif app_mode == "Categories":
     - 🧫 **Viral** (VI): *Chickenpox*, *Shingles*
     - ☀️ **Pre-cancerous**: *Actinic Keratosis*, *Bowen Disease*
     """)
-    
+
     st.markdown("---")
     st.divider()
-    
-    # New Interactive Section
+
     st.subheader("🏥 Treatment Information and Timeline")
     user_query = st.text_input(
         "Enter the disease name to see a general recovery timeline:", 
@@ -258,38 +253,35 @@ elif app_mode == "Categories":
     )
 
     if user_query:
-        # Match user input to dictionary keys
         class_names = [
             'BA- cellulitis', 'BA-impetigo', 'FU-athlete-foot',
             'FU-nail-fungus', 'FU-ringworm', 'PA-cutaneous-larva-migrans',
             'VI-chickenpox', 'VI-shingles', 'Actinic Keratosis', 'Bowen Disease'
         ]
-        
         matches = [k for k in class_names if user_query.lower() in k.lower()]
-        
+
         if matches:
             selected_disease = matches[0]
             data = disease_info_detailed(selected_disease)
-            
+
             st.info(f"### 📅 General Care Timeline: {selected_disease}")
-            
-            # Displaying the Timetable dynamically
+
             for step in data['timetable']:
                 st.markdown(f"> {step}")
-            
+
             st.success(
                 "💡 **Tip:** Always complete the full course of treatment as recommended by a healthcare provider, even if symptoms improve early!"
             )
         else:
             st.error("Disease not found. Please try names like 'Cellulitis', 'Ringworm', or 'Shingles'.")
+
 # --- DEVELOPERS PAGE ---
 elif app_mode == "Developers Group":
     st.title("👩‍💻 Developers Group")
     st.markdown("Meet the minds behind this project 👇")
 
-    # Structure: (Name, Role, Description, Image_Path, LinkedIn_URL)
     devs = [
-        ("Dev 1", "ML Engineer", "CNN & TF Expert", "Big Data Analytics" "profile_image.jpeg", "https://www.linkedin.com/in/subhajit-mondal-85946328b"),
+        ("Dev 1", "ML Engineer", "CNN & TF Expert", "profile_image.jpeg", "https://www.linkedin.com/in/subhajit-mondal-85946328b"),
         ("Dev 2", "Frontend Dev", "Streamlit UI Expert", "dev2.jpg", "https://linkedin.com/in/user2"),
         ("Dev 3", "Data Scientist", "Data Preprocessing", "dev3.jpg", "https://linkedin.com/in/user3"),
         ("Dev 4", "Backend Dev", "API & Logic", "dev4.jpg", "https://linkedin.com/in/user4"),
@@ -315,6 +307,5 @@ elif app_mode == "About Project":
     ### 🧠 Overview
     This system uses **Deep Learning (CNN)** to classify skin diseases from images.  
     **Framework:** TensorFlow + Streamlit  
-    **Goal:** Build accessible healthcare AI for all 🌍 
-
+    **Goal:** Build accessible healthcare AI for all 🌍
     """)
