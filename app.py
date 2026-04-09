@@ -2,6 +2,8 @@ import os
 import gdown
 import tensorflow as tf
 import streamlit as st
+import numpy as np
+from PIL import Image
 
 # --- Download model if it doesn't exist locally ---
 model_path = "skin_disease_model.keras"
